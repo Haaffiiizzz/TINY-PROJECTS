@@ -9,7 +9,7 @@ vibrate = input("Do you want vibrations?(Y/N):").upper()
 for i in (range(timeNeeded+1)):
     os.system("cls")
     print(f"{i:0>2}")
-    time.sleep(0.98)
+    time.sleep(0.99)
 
 os.system("cls")    
 print("Time Up!")
