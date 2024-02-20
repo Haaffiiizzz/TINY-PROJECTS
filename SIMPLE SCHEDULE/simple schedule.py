@@ -46,7 +46,7 @@ for this task?(Yes/No)").upper()
             haveExactInterval = input("Do you have an exact seconds interval for this task?:\n").upper()
             time.sleep(0.5)
             if haveExactInterval[0] == "Y":
-                task["taskFreq"] = "minutes"
+                task["taskFreq"] = "seconds"
                 task["exactTime"] = int(input("Type in the seconds interval you want:\n"))
         
         elif task["taskFreq"][0] == "O":
