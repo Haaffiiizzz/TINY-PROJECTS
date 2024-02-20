@@ -62,17 +62,25 @@ for this task?(Yes/No)").upper()
 
 def displaySchedule(task):
     message = ToastNotifier()
-    task = task["taskName"]
-    message.show_toast("Schedule", task, duration = 3, threaded = False)
+    name = task["taskName"]
+    message.show_toast("Schedule", name, duration = 3, threaded = True)
 
 def createSchedule(scheduleInfo: list):
+    print("this is sched info in create sched func", scheduleInfo)
     for event in scheduleInfo:
-        if event["taskFreq"] == "second" or "seconds":
-            exactTime = event.get("exactTime", 1)
-            schedule.every(exactTime).seconds.do(displaySchedule, task=event)
+        print("this is event", event)
     
+        if event["taskFreq"] == "second" or event["taskFreq"] =="seconds":
+            print(event["taskFreq"])
+            exactTime = event.get("exactTime", 1)
+            print(exactTime)
+            schedule.every(exactTime).seconds.do(displaySchedule, task=event)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 def main():
     scheduleInfo = getScheduleInfo()
+    print("this is sched info in create main func", scheduleInfo)
     createSchedule(scheduleInfo)
 if __name__ == "__main__":
     main()    
