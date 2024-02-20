@@ -3,6 +3,8 @@ from win10toast import ToastNotifier
 from playsound import playsound
 import time
 
+
+
 def getScheduleInfo() -> list[dict]:
     print("Hello and welcome to this simple schedule maker!\n")
     time.sleep(1)
@@ -67,21 +69,17 @@ def displaySchedule(task):
     playsound("SIMPLE TIMER\Alarm beep.mp3", block = False)
 
 def createSchedule(scheduleInfo: list):
-    print("this is sched info in create sched func", scheduleInfo)
     for event in scheduleInfo:
-        print("this is event", event)
-    
-        if event["taskFreq"] == "second" or event["taskFreq"] =="seconds":
-            print(event["taskFreq"])
+        if event["taskFreq"] == "second" or event["taskFreq"] == "seconds":
             exactTime = event.get("exactTime", 1)
-            print(exactTime)
-            schedule.every(exactTime).seconds.do(displaySchedule, task=event)
+            
+            schedule.every(exactTime).seconds.do(displaySchedule,   event)
     while True:
         schedule.run_pending()
+        time.sleep(1)
         
 def main():
     scheduleInfo = getScheduleInfo()
-    print("this is sched info in create main func", scheduleInfo)
     createSchedule(scheduleInfo)
 if __name__ == "__main__":
     main()    
