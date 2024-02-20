@@ -63,7 +63,8 @@ for this task?(Yes/No)").upper()
 def displaySchedule(task):
     message = ToastNotifier()
     name = task["taskName"]
-    message.show_toast("Schedule", name, duration = 3, threaded = True)
+    message.show_toast("Schedule", name, duration = 2, threaded = True)
+    playsound("SIMPLE TIMER\Alarm beep.mp3", block = False)
 
 def createSchedule(scheduleInfo: list):
     print("this is sched info in create sched func", scheduleInfo)
@@ -77,7 +78,7 @@ def createSchedule(scheduleInfo: list):
             schedule.every(exactTime).seconds.do(displaySchedule, task=event)
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        
 def main():
     scheduleInfo = getScheduleInfo()
     print("this is sched info in create main func", scheduleInfo)
