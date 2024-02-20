@@ -3,7 +3,7 @@ from win10toast import ToastNotifier
 from playsound import playsound
 import time
 
-def getScheduleInfo() -> list[list]:
+def getScheduleInfo() -> list[dict]:
     print("Hello and welcome to this simple schedule maker!\n")
     time.sleep(1)
 
@@ -58,10 +58,15 @@ for this task?(Yes/No)").upper()
         if addMoreTasks[0] == "N":
             addTask = False
 
-    print(allTasks)
+    return(allTasks)
 
+
+def createSchedule(scheduleInfo: list):
+    for task in scheduleInfo:
+        schedule.every(task.get("exactTime", 1)).task.get("taskFreq").do(print(task.get("taskName")))
+    
 def main():
-    getScheduleInfo()
-
+    scheduleInfo = getScheduleInfo()
+    createSchedule(scheduleInfo)
 if __name__ == "__main__":
     main()    
