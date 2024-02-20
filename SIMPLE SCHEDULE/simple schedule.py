@@ -23,7 +23,7 @@ for this task?(Yes/No)").upper()
             time.sleep(0.5)
             if haveExactTime[0] == "Y":
                 task["taskFreq"] = "days"
-                task["exactTime"] = input("Type in the day interval you want:\n")
+                task["exactTime"] = int(input("Type in the day interval you want:\n"))
 
         elif task["taskFreq"][0] == "H":
             task["taskFreq"] = "hour"
@@ -49,7 +49,7 @@ for this task?(Yes/No)").upper()
                 task["taskFreq"] = "minutes"
                 task["exactTime"] = int(input("Type in the seconds interval you want:\n"))
         
-        elif task["taskFreq"][0] == "S":
+        elif task["taskFreq"][0] == "O":
             task["taskFreq"] = "once"
 
         allTasks.append(task)
@@ -60,10 +60,16 @@ for this task?(Yes/No)").upper()
 
     return(allTasks)
 
+def displaySchedule(task):
+    message = ToastNotifier()
+    task = task["taskName"]
+    message.show_toast("Schedule", task, duration = 3, threaded = False)
 
 def createSchedule(scheduleInfo: list):
-    for task in scheduleInfo:
-        schedule.every(task.get("exactTime", 1)).task.get("taskFreq").do(print(task.get("taskName")))
+    for event in scheduleInfo:
+        if event["taskFreq"] == "second" or "seconds":
+            exactTime = event.get("exactTime", 1)
+            schedule.every(exactTime).seconds.do(displaySchedule, task=event)
     
 def main():
     scheduleInfo = getScheduleInfo()
