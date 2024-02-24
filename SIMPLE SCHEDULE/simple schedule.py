@@ -28,31 +28,27 @@ for this task?(Yes/No)").upper()
                 task["exactTime"] = int(input("Type in the day interval you want:\n"))
 
         elif task["taskFreq"][0] == "H":
-            task["taskFreq"] = "hour"
+            task["taskFreq"] = "hours"
             haveExactInterval = input("Do you have an exact hour interval for this task?:\n").upper()
             time.sleep(0.5)
             if haveExactInterval[0] == "Y":
-                task["taskFreq"] = "hours"
                 task["exactTime"] = int(input("Type in the hour interval you want:\n"))
 
         elif task["taskFreq"][0] == "M":
-            task["taskFreq"] = "minute"
+            task["taskFreq"] = "minutes"
             haveExactInterval = input("Do you have an exact minutes interval for this task?:\n").upper()
             time.sleep(0.5)
             if haveExactInterval[0] == "Y":
-                task["taskFreq"] = "minutes"
                 task["exactTime"] = int(input("Type in the minute interval you want:\n"))
 
         elif task["taskFreq"][0] == "S":
-            task["taskFreq"] = "second"
+            task["taskFreq"] = "seconds"
             haveExactInterval = input("Do you have an exact seconds interval for this task?:\n").upper()
             time.sleep(0.5)
             if haveExactInterval[0] == "Y":
-                task["taskFreq"] = "seconds"
                 task["exactTime"] = int(input("Type in the seconds interval you want:\n"))
         
-        elif task["taskFreq"][0] == "O":
-            task["taskFreq"] = "once"
+        
 
         allTasks.append(task)
         time.sleep(1)
@@ -70,10 +66,16 @@ def displaySchedule(task):
 
 def createSchedule(scheduleInfo: list):
     for event in scheduleInfo:
-        if event["taskFreq"] == "second" or event["taskFreq"] == "seconds":
-            exactTime = event.get("exactTime", 1)
-            
-            schedule.every(exactTime).seconds.do(displaySchedule,   event)
+        exactTime = event.get("exactTime", 1)
+        if event["taskFreq"] == "seconds":
+            schedule.every(exactTime).seconds.do(displaySchedule, event)
+        if event["taskFreq"] == "minutes":
+            schedule.every(exactTime).minutes.do(displaySchedule, event)
+        if event["taskFreq"] == "hours":
+            schedule.every(exactTime).hours.do(displaySchedule, event)
+        if event["taskFreq"] == "days":
+            schedule.every(exactTime).days.do(displaySchedule, event)   
+
     while True:
         schedule.run_pending()
         time.sleep(1)
