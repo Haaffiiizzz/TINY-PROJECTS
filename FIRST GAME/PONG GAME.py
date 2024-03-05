@@ -17,7 +17,7 @@ ball.direction = "right"
 
 playerOne = turtle.Turtle()
 playerOne.penup()
-playerOne.goto(270,0)
+playerOne.goto(-270,0)
 playerOne.shape("square")
 playerOne.shapesize(stretch_wid=5, stretch_len=1)
 playerOne.direction = "Stop"
@@ -25,7 +25,7 @@ playerOne.color("blue")
 
 playerTwo = turtle.Turtle()
 playerTwo.penup()
-playerTwo.goto(-270,0)
+playerTwo.goto(270,0)
 playerTwo.shape("square")
 playerTwo.shapesize(stretch_wid=5, stretch_len=1)
 playerTwo.direction = "Stop"
@@ -34,11 +34,11 @@ playerTwo.color("red")
 pen = turtle.Turtle()
 pen.speed(0)
 pen.shape("square")
-pen.color("white")
+pen.color("blue")
 pen.penup()
 pen.hideturtle()
 pen.goto(0, 250)
-pen.write("Score : 0  High Score : 0", align="center",
+pen.write("Player 1 : 0  Player 2 : 0", align="center",
           font=("candara", 24, "bold"))
 
 
@@ -64,34 +64,53 @@ def moveBall():
 
 
 screen.listen()
-screen.onkeypress(lambda: goUp(playerOne), "Up")
-screen.onkeypress(lambda: goDown(playerOne), "Down")
-screen.onkeypress(lambda: goUp(playerTwo), "w")
-screen.onkeypress(lambda: goDown(playerTwo), "z")
+screen.onkeypress(lambda: goUp(playerTwo), "Up")
+screen.onkeypress(lambda: goDown(playerTwo), "Down")
+screen.onkeypress(lambda: goUp(playerOne), "w")
+screen.onkeypress(lambda: goDown(playerOne), "z")
 
 
 playerOneScore = 0
 playerTwoScore = 0
 
-while True:
+while playerOneScore <= 20 and playerTwoScore <= 20:
     screen.update()
     if ball.distance(playerOne) < 30:
-        ball.direction = "left"
+        ball.direction = "right"
     if ball.distance(playerTwo) < 30:
-        ball.direction = "right"  
+        ball.direction = "left"  
     if ball.xcor() > 290:
         time.sleep(0.2)
         ball.goto(0,0)
-        playerTwoScore += 2
+        playerOneScore += 2
+        pen.clear()
+        pen.write("Player 1 : {} Player 2 : {} ".format(
+            playerOneScore, playerTwoScore), align="center", font=("candara", 24, "bold"))
         
     if ball.xcor() < -290:
         time.sleep(0.2)
         ball.goto(0,0)
-        playerOneScore += 2 
-       
+        playerTwoScore += 2 
+        pen.clear()
+        pen.write("Player 1 : {} Player 2 : {} ".format(
+            playerOneScore, playerTwoScore), align="center", font=("candara", 24, "bold"))
+
+    if playerOne.ycor() > 220 or playerOne.ycor() < -220:
+        playerOne.direction = "Stop"
+        moveBar(playerOne)
+    if playerTwo.ycor() > 220 or playerTwo.ycor() < -220:
+        playerTwo.direction = "Stop" 
+        moveBar(playerTwo)   
+
     moveBall()
     moveBar(playerOne)
     moveBar(playerTwo)
     time.sleep(0.1)
-
+screen.update()
+pen.clear()
+pen.goto(0, 0)
+if playerOneScore > playerTwoScore:
+    pen.write("Gameover! Player 1 wins! :)", align="center", font=("candara", 24, "bold"))
+else:
+    pen.write("Gameover! Player 2 wins! :)", align="center", font=("candara", 24, "bold"))
 screen.mainloop()       

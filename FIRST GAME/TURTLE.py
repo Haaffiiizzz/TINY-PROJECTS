@@ -36,6 +36,7 @@ food.color(colors)
 food.penup()
 food.goto(0, 100)
 
+
 pen = turtle.Turtle()
 pen.speed(0)
 pen.shape("square")
@@ -48,23 +49,19 @@ pen.write("Score : 0  High Score : 0", align="center",
 
 
 # assigning key directions
-def group():
-    if head.direction != "down":
+def goup():
         head.direction = "up"
 
 
 def godown():
-    if head.direction != "up":
         head.direction = "down"
 
 
 def goleft():
-    if head.direction != "right":
         head.direction = "left"
 
 
 def goright():
-    if head.direction != "left":
         head.direction = "right"
 
 
@@ -84,10 +81,10 @@ def move():
 
 
 wn.listen()
-wn.onkeypress(group, "w")
-wn.onkeypress(godown, "s")
-wn.onkeypress(goleft, "a")
-wn.onkeypress(goright, "d")
+wn.onkeypress(goup, "Up")
+wn.onkeypress(godown, "Down")
+wn.onkeypress(goleft, "Left")
+wn.onkeypress(goright, "Right")
 
 segments = []
 
