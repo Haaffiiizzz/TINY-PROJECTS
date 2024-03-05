@@ -13,62 +13,55 @@ ball.shape("circle")
 ball.color("blue")
 ball.penup()
 ball.goto(0,0)
-ball.direction = random.choice(["up", "left", "right", "down"])
+ball.direction = "right"
 
-bar = turtle.Turtle()
-bar.penup()
-bar.goto(0,0)
-bar.shape("turtle")
-bar.direction = "Stop"
+playerOne = turtle.Turtle()
+playerOne.penup()
+playerOne.goto(-270,0)
+playerOne.shape("square")
+playerOne.direction = "Stop"
+playerOne.color("blue")
 
-def goUp():
-    bar.direction = "up"
+playerTwo = turtle.Turtle()
+playerTwo.penup()
+playerTwo.goto(270,0)
+playerTwo.shape("square")
+playerTwo.direction = "Stop"
+playerTwo.color("red")
 
-def goDown():
-    bar.direction = "down"
+def goUp(player):
+    player.direction = "up"
 
-def goRight():
-    bar.direction = "right"
+def goDown(player):
+    player.direction = "down"
+ 
 
-def goLeft():
-    bar.direction = "left"    
-
-def moveBar():
-    if bar.direction == "up":
-        bar.sety(bar.ycor() + 10)
-    if bar.direction == "down":
-        bar.sety(bar.ycor() - 20)
-    if bar.direction == "right":
-        bar.setx(bar.xcor() + 20)
-    if bar.direction == "left":
-        bar.setx(bar.xcor() - 20)           
-
+def moveBar(player):
+    if player.direction == "up":
+        player.sety(player.ycor() + 20)
+    if player.direction == "down":
+        player.sety(player.ycor() - 20)
+    
 def moveBall():
-    if ball.direction == "up":
-        ball.sety(bar.ycor() + 10)
-    if ball.direction == "down":
-        ball.sety(bar.ycor() - 20)
-    if ball.direction == "right":
-        ball.setx(bar.xcor() + 20)
-    if ball.direction == "left":
-        ball.setx(bar.xcor() - 20)  
-    if ball.xcor() > 295 or ball.xcor() < -295 or ball.ycor() > 295 or ball.ycor() < -295:
-        ball.direction = random.choice(["up", "left", "right", "down"])    
+    
 
 
 screen.listen()
-screen.onkeypress(goUp, "Up")
-screen.onkeypress(goDown, "Down")
-screen.onkeypress(goLeft, "Left")
-screen.onkeypress(goRight, "Right")
+screen.onkeypress(goUp(playerOne), "Up")
+screen.onkeypress(goDown(playerOne), "Down")
+screen.onkeypress(goUp(playerTwo), "w")
+screen.onkeypress(goDown(playerTwo), "z")
+
+
 
 
 while True:
     screen.update()
-    moveBall()
     
-    if ball.xcor() > 295 or ball.xcor() < -295 or ball.ycor() > 295 or ball.ycor() < -295:
-        ball.direction = random.choice(["up", "left", "right", "down"])
+
+    moveBar(playerOne)
+    moveBar(playerTwo)
+    time.sleep(0.2)
 
 
 screen.mainloop()       
