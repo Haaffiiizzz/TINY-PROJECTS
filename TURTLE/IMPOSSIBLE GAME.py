@@ -59,17 +59,18 @@ screen.onkeypress(lambda: goUp(playerTwo), "w")
 screen.onkeypress(lambda: goDown(playerTwo), "z")
 
 
-
+playerOneScore = 0
+playerTwoScore = 0
 
 while True:
     screen.update()
-    if ball.distance(playerOne) < 10:
+    if ball.distance(playerOne) < 30:
         ball.direction = "left"
-    if ball.distance(playerTwo) < 10:
+    if ball.distance(playerTwo) < 30:
         ball.direction = "right"    
-    time.sleep(0.1)
     moveBall()
     moveBar(playerOne)
     moveBar(playerTwo)
+    time.sleep(0.1)
 
 screen.mainloop()       
