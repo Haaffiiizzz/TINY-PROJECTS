@@ -31,6 +31,17 @@ playerTwo.shapesize(stretch_wid=5, stretch_len=1)
 playerTwo.direction = "Stop"
 playerTwo.color("red")
 
+pen = turtle.Turtle()
+pen.speed(0)
+pen.shape("square")
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 250)
+pen.write("Score : 0  High Score : 0", align="center",
+          font=("candara", 24, "bold"))
+
+
 def goUp(player):
     player.direction = "up"
 
@@ -67,7 +78,17 @@ while True:
     if ball.distance(playerOne) < 30:
         ball.direction = "left"
     if ball.distance(playerTwo) < 30:
-        ball.direction = "right"    
+        ball.direction = "right"  
+    if ball.xcor() > 290:
+        time.sleep(0.2)
+        ball.goto(0,0)
+        playerTwoScore += 2
+        
+    if ball.xcor() < -290:
+        time.sleep(0.2)
+        ball.goto(0,0)
+        playerOneScore += 2 
+       
     moveBall()
     moveBar(playerOne)
     moveBar(playerTwo)
