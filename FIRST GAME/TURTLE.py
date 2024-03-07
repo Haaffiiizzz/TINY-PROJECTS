@@ -36,6 +36,15 @@ food.color(colors)
 food.penup()
 food.goto(0, 100)
 
+food1 = turtle.Turtle()
+colors = random.choice(['red', 'green', 'black'])
+shapes = random.choice(['square', 'triangle', 'circle'])
+food1.speed(0)
+food1.shape(shapes)
+food1.color(colors)
+food1.penup()
+food1.goto(0, 100)
+
 
 pen = turtle.Turtle()
 pen.speed(0)
@@ -50,19 +59,23 @@ pen.write("Score : 0  High Score : 0", align="center",
 
 # assigning key directions
 def goup():
-        head.direction = "up"
+        if head.direction != "down":
+            head.direction = "up"
 
 
 def godown():
-        head.direction = "down"
+        if head.direction != "up":
+            head.direction = "down"
 
 
 def goleft():
-        head.direction = "left"
+        if head.direction != "right":
+            head.direction = "left"
 
 
 def goright():
-        head.direction = "right"
+        if head.direction != "left":
+            head.direction = "right"
 
 
 def move():
@@ -88,7 +101,7 @@ wn.onkeypress(goright, "Right")
 
 segments = []
 
-# By - @pythonnotes1
+
 # Main Gameplay
 while True:
     wn.update()
@@ -104,9 +117,29 @@ while True:
         head.goto(head.xcor(), 290)
 
     if head.distance(food) < 30:
-        x = random.randint(-270, 270)
-        y = random.randint(-270, 270)
+        x = random.randint(-290, 290)
+        y = random.randint(-290, 290)
         food.goto(x, y)
+
+        # Adding segment
+        new_segment = turtle.Turtle()
+        new_segment.speed(0)
+        new_segment.shape("square")
+        new_segment.color("orange")  # tail colour
+        new_segment.penup()
+        segments.append(new_segment)
+        delay -= 0.001
+        score += 10
+        if score > high_score:
+            high_score = score
+        pen.clear()
+        pen.write("Score : {} High Score : {} ".format(
+            score, high_score), align="center", font=("candara", 24, "bold"))
+        
+    if head.distance(food1) < 30:
+        x = random.randint(-290, 290)
+        y = random.randint(-290, 290)
+        food1.goto(x, y)
 
         # Adding segment
         new_segment = turtle.Turtle()
@@ -133,7 +166,7 @@ while True:
         segments[0].goto(x, y)
     move()
     for segment in segments:
-        if segment.distance(head) < 20:
+        if segment.distance(head) < 5:
             time.sleep(1)
             head.goto(0, 0)
             head.direction = "stop"

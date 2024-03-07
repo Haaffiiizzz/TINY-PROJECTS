@@ -73,24 +73,22 @@ screen.onkeypress(lambda: goDown(playerOne), "z")
 playerOneScore = 0
 playerTwoScore = 0
 
-while playerOneScore <= 10 and playerTwoScore <= 10:
+while playerOneScore <= 20 and playerTwoScore <= 20:
     screen.update()
     if ball.distance(playerOne) < 30:
         ball.direction = "right"
     if ball.distance(playerTwo) < 30:
         ball.direction = "left"  
     if ball.xcor() > 290:
-        time.sleep(0.2)
-        ball.goto(0,0)
-        playerOneScore += 1
+        ball.direction = 360 - ball.direction
+        playerOneScore += 2
         pen.clear()
         pen.write("Player 1 : {} Player 2 : {} ".format(
             playerOneScore, playerTwoScore), align="center", font=("candara", 24, "bold"))
         
     if ball.xcor() < -290:
-        time.sleep(0.2)
-        ball.goto(0,0)
-        playerTwoScore += 1
+        ball.direction = 360 - ball.direction
+        playerTwoScore += 2 
         pen.clear()
         pen.write("Player 1 : {} Player 2 : {} ".format(
             playerOneScore, playerTwoScore), align="center", font=("candara", 24, "bold"))
