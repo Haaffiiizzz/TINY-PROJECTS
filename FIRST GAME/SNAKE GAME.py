@@ -6,8 +6,8 @@ import time
 import random
 
 delay = 0.1
-score = 0
-high_score = 0
+playerOne = 0
+playerTwo = 0
 
 
 # Creating a window screen
@@ -23,8 +23,15 @@ head = turtle.Turtle()
 head.shape("square")
 head.color("white")
 head.penup()
-head.goto(0, 0)
+head.goto(-100, 0)
 head.direction = "Stop"
+
+head1 = turtle.Turtle()
+head1.shape("square")
+head1.color("white")
+head1.penup()
+head1.goto(100, 0)
+head1.direction = "Stop"
 
 # food in the game
 food = turtle.Turtle()
@@ -53,32 +60,32 @@ pen.color("white")
 pen.penup()
 pen.hideturtle()
 pen.goto(0, 250)
-pen.write("Score : 0  High Score : 0", align="center",
+pen.write("Player 1 : 0  Player 2 : 0", align="center",
           font=("candara", 24, "bold"))
 
-
+segments = []
+segments1 = []
 # assigning key directions
-def goup():
+def goup(head):
         if head.direction != "down":
             head.direction = "up"
 
 
-def godown():
+def godown(head):
         if head.direction != "up":
             head.direction = "down"
 
 
-def goleft():
+def goleft(head):
         if head.direction != "right":
             head.direction = "left"
 
 
-def goright():
+def goright(head):
         if head.direction != "left":
             head.direction = "right"
-
-
-def move():
+ 
+def move(head):
     if head.direction == "up":
         y = head.ycor()
         head.sety(y+20)
@@ -92,31 +99,24 @@ def move():
         x = head.xcor()
         head.setx(x+20)
 
-
-wn.listen()
-wn.onkeypress(goup, "Up")
-wn.onkeypress(godown, "Down")
-wn.onkeypress(goleft, "Left")
-wn.onkeypress(goright, "Right")
-
-segments = []
-
-
-# Main Gameplay
-while True:
-    wn.update()
+def checkHeadBarrier(head):
     if head.xcor() > 290:
-         head.goto(-290, head.ycor())
+        head.goto(-290, head.ycor())
          
     if head.xcor() < -290:
         head.goto(290, head.ycor())
-    
+
     if head.ycor() > 290:
         head.goto(head.xcor(), -290)
+
     if head.ycor() < -290:
         head.goto(head.xcor(), 290)
 
-    if head.distance(food) < 30:
+def checkHeadFood(head, food, player, segment):
+     global delay
+     global playerOne
+     global playerTwo
+     if head.distance(food) < 30:
         x = random.randint(-290, 290)
         y = random.randint(-290, 290)
         food.goto(x, y)
@@ -127,35 +127,21 @@ while True:
         new_segment.shape("square")
         new_segment.color("orange")  # tail colour
         new_segment.penup()
-        segments.append(new_segment)
+        segment.append(new_segment)
+    
+        if player == playerOne:
+            playerOne += 2
+        else:
+            
+            playerTwo += 2
         delay -= 0.001
-        score += 10
-        if score > high_score:
-            high_score = score
-        pen.clear()
-        pen.write("Score : {} High Score : {} ".format(
-            score, high_score), align="center", font=("candara", 24, "bold"))
         
-    if head.distance(food1) < 30:
-        x = random.randint(-290, 290)
-        y = random.randint(-290, 290)
-        food1.goto(x, y)
-
-        # Adding segment
-        new_segment = turtle.Turtle()
-        new_segment.speed(0)
-        new_segment.shape("square")
-        new_segment.color("orange")  # tail colour
-        new_segment.penup()
-        segments.append(new_segment)
-        delay -= 0.001
-        score += 10
-        if score > high_score:
-            high_score = score
+        
         pen.clear()
-        pen.write("Score : {} High Score : {} ".format(
-            score, high_score), align="center", font=("candara", 24, "bold"))
-    # Checking for head collisions with body segments
+        pen.write("Player 1 : {} Player 2 : {} ".format(
+            playerOne, playerTwo), align="center", font=("candara", 24, "bold"))
+
+def headBodyCollision(head, segments):
     for index in range(len(segments)-1, 0, -1):
         x = segments[index-1].xcor()
         y = segments[index-1].ycor()
@@ -164,7 +150,7 @@ while True:
         x = head.xcor()
         y = head.ycor()
         segments[0].goto(x, y)
-    move()
+    move(head)    
     for segment in segments:
         if segment.distance(head) < 5:
             time.sleep(1)
@@ -180,7 +166,35 @@ while True:
             delay = 0.1
             pen.clear()
             pen.write("Score : {} High Score : {} ".format(
-                score, high_score), align="center", font=("candara", 24, "bold"))
+                playerOne, playerTwo), align="center", font=("candara", 24, "bold"))    
+
+wn.listen()
+wn.onkeypress(lambda: goup(head), "Up")
+wn.onkeypress(lambda: godown(head), "Down")
+wn.onkeypress(lambda: goleft(head), "Left")
+wn.onkeypress(lambda: goright(head), "Right")
+wn.onkeypress(lambda: goup(head1), "w")
+wn.onkeypress(lambda: godown(head1), "z")
+wn.onkeypress(lambda: goleft(head1), "a")
+wn.onkeypress(lambda: goright(head1), "s")
+
+
+
+
+
+while True:
+    wn.update()
+    checkHeadBarrier(head)
+    checkHeadBarrier(head1)
+    checkHeadFood(head, food, playerOne, segments)
+    checkHeadFood(head, food1, playerOne, segments )
+    checkHeadFood(head1, food, playerTwo, segments1)
+    checkHeadFood(head1, food1, playerTwo, segments1)
+    # Checking for head collisions with body segments
+    headBodyCollision(head, segments)
+    headBodyCollision(head1, segments1)
+    
+    
     time.sleep(delay)
 
 wn.mainloop()
