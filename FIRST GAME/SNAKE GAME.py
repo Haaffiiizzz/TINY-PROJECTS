@@ -190,7 +190,7 @@ while True:
     checkHeadFood(head, food1, playerOne, segments )
     checkHeadFood(head1, food, playerTwo, segments1)
     checkHeadFood(head1, food1, playerTwo, segments1)
-    # Checking for head collisions with body segments
+    # Checking for head collisions with body segment
     headBodyCollision(head, segments)
     headBodyCollision(head1, segments1)
     
