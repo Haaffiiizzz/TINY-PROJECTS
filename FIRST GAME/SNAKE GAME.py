@@ -129,17 +129,14 @@ def checkHeadFood(head, food, player, segment):
         new_segment.penup()
         segment.append(new_segment)
     
-        if player == playerOne:
-            playerOne += 2
-        else:
-            
-            playerTwo += 2
+        player += 2
         delay -= 0.001
         
         
         pen.clear()
         pen.write("Player 1 : {} Player 2 : {} ".format(
             playerOne, playerTwo), align="center", font=("candara", 24, "bold"))
+        return player
 
 def headBodyCollision(head, segments):
     for index in range(len(segments)-1, 0, -1):
@@ -186,10 +183,10 @@ while True:
     wn.update()
     checkHeadBarrier(head)
     checkHeadBarrier(head1)
-    checkHeadFood(head, food, playerOne, segments)
-    checkHeadFood(head, food1, playerOne, segments )
-    checkHeadFood(head1, food, playerTwo, segments1)
-    checkHeadFood(head1, food1, playerTwo, segments1)
+    playerOne = checkHeadFood(head, food, playerOne, segments)
+    playerOne = checkHeadFood(head, food1, playerOne, segments )
+    playerTwo = checkHeadFood(head1, food, playerTwo, segments1)
+    playerTwo = checkHeadFood(head1, food1, playerTwo, segments1)
     # Checking for head collisions with body segment
     headBodyCollision(head, segments)
     headBodyCollision(head1, segments1)
