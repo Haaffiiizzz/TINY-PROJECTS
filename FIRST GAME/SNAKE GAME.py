@@ -121,7 +121,7 @@ def checkHeadFood(head, food, player, segment):
         y = random.randint(-290, 290)
         food.goto(x, y)
 
-        # Adding segment
+      
         new_segment = turtle.Turtle()
         new_segment.speed(0)
         new_segment.shape("square")
