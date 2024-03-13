@@ -111,7 +111,7 @@ screen.update()
 pen.clear()
 pen.goto(0, 0)
 if playerOneScore > playerTwoScore:
-    pen.write("Gameover! Player 1 wins! :)", align="center", font=("candara", 24, "bold"))
+    pen.write("Gameover!!! Player 1 wins! :)", align="center", font=("candara", 24, "bold"))
 else:
-    pen.write("Gameover! Player 2 wins! :)", align="center", font=("candara", 24, "bold"))
+    pen.write("Gameover!!! Player 2 wins! :)", align="center", font=("candara", 24, "bold"))
 screen.mainloop()       
