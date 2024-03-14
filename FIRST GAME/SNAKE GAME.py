@@ -21,7 +21,7 @@ wn.tracer(0)
 # head of the snake
 head = turtle.Turtle()
 head.shape("square")
-head.color("white")
+head.color("red")
 head.penup()
 head.goto(-100, 0)
 head.direction = "Stop"
@@ -41,7 +41,7 @@ food.speed(0)
 food.shape(shapes)
 food.color(colors)
 food.penup()
-food.goto(0, 100)
+food.goto(200, 100)
 
 food1 = turtle.Turtle()
 colors = random.choice(['red', 'green', 'black'])
@@ -50,7 +50,7 @@ food1.speed(0)
 food1.shape(shapes)
 food1.color(colors)
 food1.penup()
-food1.goto(0, 100)
+food1.goto(-200, 100)
 
 
 pen = turtle.Turtle()
@@ -117,6 +117,8 @@ def checkHeadFood(head, food, segment):
      if head.distance(food) < 30:
         x = random.randint(-290, 290)
         y = random.randint(-290, 290)
+        food.color = random.choice(['red', 'green', 'black'])
+        food.shape = random.choice(['square', 'triangle', 'circle'])
         food.goto(x, y)
 
       
@@ -126,8 +128,6 @@ def checkHeadFood(head, food, segment):
         new_segment.color("orange")  # tail colour
         new_segment.penup()
         segment.append(new_segment)
-    
-
         delay -= 0.001
         
         return True
@@ -172,21 +172,22 @@ wn.onkeypress(lambda: goleft(head1), "a")
 wn.onkeypress(lambda: goright(head1), "s")
 
 
-
-
-
-while True:
+while playerOne < 20 and playerTwo < 20:
     wn.update()
     checkHeadBarrier(head)
     checkHeadBarrier(head1)
     if checkHeadFood(head, food, segments):
-         playerOne += 2
+            playerOne += 2
+            
     if checkHeadFood(head, food1, segments):
-         playerOne += 2     
+            playerOne += 2
+                  
     if checkHeadFood(head1, food, segments1):
-         playerTwo += 2
+            playerTwo += 2
+              
     if checkHeadFood(head1, food1, segments1):
-         playerTwo += 2     
+            playerTwo += 2
+               
     # Checking for head collisions with body segment
     pen.clear()
     pen.write("Player 1 : {} Player 2 : {} ".format(
@@ -194,7 +195,16 @@ while True:
     headBodyCollision(head, segments)
     headBodyCollision(head1, segments1)
     
-    
     time.sleep(delay)
 
+if playerOne > playerTwo:
+    pen.goto(0,0)
+    pen.clear()
+    pen.write("Gameover! Player 1 wins!!", align="center", font=("candara", 24, "bold"))
+else:
+    pen.goto(0,0)
+    pen.clear()
+    pen.write("Gameover! Player 2 wins!!", align="center", font=("candara", 24, "bold"))
+         
+     
 wn.mainloop()
