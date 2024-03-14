@@ -112,10 +112,8 @@ def checkHeadBarrier(head):
     if head.ycor() < -290:
         head.goto(head.xcor(), 290)
 
-def checkHeadFood(head, food, player, segment):
+def checkHeadFood(head, food, segment):
      global delay
-     global playerOne
-     global playerTwo
      if head.distance(food) < 30:
         x = random.randint(-290, 290)
         y = random.randint(-290, 290)
@@ -129,14 +127,12 @@ def checkHeadFood(head, food, player, segment):
         new_segment.penup()
         segment.append(new_segment)
     
-        player += 2
+
         delay -= 0.001
         
-        
-        pen.clear()
-        pen.write("Player 1 : {} Player 2 : {} ".format(
-            playerOne, playerTwo), align="center", font=("candara", 24, "bold"))
-        return player
+        return True
+     else:
+          return False 
 
 def headBodyCollision(head, segments):
     for index in range(len(segments)-1, 0, -1):
@@ -183,11 +179,18 @@ while True:
     wn.update()
     checkHeadBarrier(head)
     checkHeadBarrier(head1)
-    playerOne = checkHeadFood(head, food, playerOne, segments)
-    playerOne = checkHeadFood(head, food1, playerOne, segments )
-    playerTwo = checkHeadFood(head1, food, playerTwo, segments1)
-    playerTwo = checkHeadFood(head1, food1, playerTwo, segments1)
+    if checkHeadFood(head, food, segments):
+         playerOne += 2
+    if checkHeadFood(head, food1, segments):
+         playerOne += 2     
+    if checkHeadFood(head1, food, segments1):
+         playerTwo += 2
+    if checkHeadFood(head1, food1, segments1):
+         playerTwo += 2     
     # Checking for head collisions with body segment
+    pen.clear()
+    pen.write("Player 1 : {} Player 2 : {} ".format(
+        playerOne, playerTwo), align="center", font=("candara", 24, "bold"))
     headBodyCollision(head, segments)
     headBodyCollision(head1, segments1)
     
