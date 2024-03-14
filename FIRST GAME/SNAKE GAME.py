@@ -1,6 +1,3 @@
-
-
-# import required modules
 import turtle
 import time
 import random
@@ -10,15 +7,15 @@ playerOne = 0
 playerTwo = 0
 
 
-# Creating a window screen
+
 wn = turtle.Screen()
 wn.title("Snake Game")
 wn.bgcolor("blue")
-# the width and height can be put as user's choice
+
 wn.setup(width=600, height=600)
 wn.tracer(0)
 
-# head of the snake
+
 head = turtle.Turtle()
 head.shape("square")
 head.color("red")
@@ -33,7 +30,7 @@ head1.penup()
 head1.goto(100, 0)
 head1.direction = "Stop"
 
-# food in the game
+
 food = turtle.Turtle()
 colors = random.choice(['red', 'green', 'black'])
 shapes = random.choice(['square', 'triangle', 'circle'])
@@ -65,7 +62,7 @@ pen.write("Player 1 : 0  Player 2 : 0", align="center",
 
 segments = []
 segments1 = []
-# assigning key directions
+
 def goup(head):
         if head.direction != "down":
             head.direction = "up"
@@ -125,7 +122,7 @@ def checkHeadFood(head, food, segment):
         new_segment = turtle.Turtle()
         new_segment.speed(0)
         new_segment.shape("square")
-        new_segment.color("orange")  # tail colour
+        new_segment.color("orange")  
         new_segment.penup()
         segment.append(new_segment)
         delay -= 0.001
@@ -188,7 +185,6 @@ while playerOne < 20 and playerTwo < 20:
     if checkHeadFood(head1, food1, segments1):
             playerTwo += 2
                
-    # Checking for head collisions with body segment
     pen.clear()
     pen.write("Player 1 : {} Player 2 : {} ".format(
         playerOne, playerTwo), align="center", font=("candara", 24, "bold"))
